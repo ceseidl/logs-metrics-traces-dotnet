@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build
+        run: dotnet build --nologo -warnaserror
+
+      - name: Smoke test (metrics, logs and trace)
+        run: |
+          out=$(timeout 120 dotnet run --no-build --project src/Signals)
+          echo "$out"
+          echo "$out" | grep -Eq '^gateway +2\.1\.0 +400 +10 '
+          echo "$out" | grep -Eq '^payments +1\.4\.0 +200 +0 '
+          echo "$out" | grep -Eq '^payments +1\.5\.0 +200 +10 '
+          echo "$out" | grep -q 'logs: 400 lines, 10 errors'
+          echo "$out" | grep -q 'timed out for order 220'
+          echo "$out" | grep -Eq 'payments: fraud-check +[0-9]+ ms  ERROR'
