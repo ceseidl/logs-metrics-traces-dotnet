@@ -2,6 +2,8 @@ English | [Português](README.pt-BR.md)
 
 # Logs, metrics and traces in .NET
 
+Full article: <https://ceseidl.com.br/en/artigos/logs-metricas-traces-dotnet/>
+
 Code for the article "Logs, métricas e traces em .NET: três visões do mesmo incidente".
 
 Three ASP.NET Core services (`gateway` → `orders` → `payments`) run in one process. Halfway through, `payments` is deployed from 1.4.0 to 1.5.0, and the new version has a slow fraud check. The program follows the incident through the three signals:

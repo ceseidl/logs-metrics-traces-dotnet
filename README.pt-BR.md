@@ -2,6 +2,8 @@
 
 # Logs, métricas e traces em .NET
 
+Artigo completo: <https://ceseidl.com.br/artigos/logs-metricas-traces-dotnet/>
+
 Código do artigo "Logs, métricas e traces em .NET: três visões do mesmo incidente".
 
 Três serviços ASP.NET Core (`gateway` → `orders` → `payments`) rodam num só processo. No meio da execução, o `payments` passa da versão 1.4.0 para a 1.5.0, que tem uma verificação antifraude lenta. O programa segue o incidente pelos três sinais:
